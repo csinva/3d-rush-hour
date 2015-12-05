@@ -1,4 +1,4 @@
-function [vert, fac] = voxel_image( pts, vox_sz, color, alpha, edgec )
+function [vert, fac] = voxel_image( pts, vox_sz, colors, alpha, edgec )
 %VOXEL_IMAGE Creates a 3D voxel image
 %   Parameters:
 %   pts    - n x 3 matrix with 3D points
@@ -78,7 +78,7 @@ for vx = 1:np
     end
     fac ( ((vx-1)*6+1):vx*6,: ) = (vx - 1)*8*ones(6,4) + fac_bas;
 end
-patch('Vertices',vert,'Faces',fac,'FaceColor',color,'FaceAlpha',alpha,'Edgecolor',edgec);
+patch('Vertices',vert,'Faces',fac,'FaceColor',colors,'FaceAlpha',alpha,'Edgecolor',edgec);
 
 end
 
