@@ -1,6 +1,6 @@
 % load parameters
 % needs to somehow convey N, first thing should be escape piece
-params = load('test_invalid_2.txt');
+params = load('test_1.out');
 p_size = size(params);
 
 %% parameters

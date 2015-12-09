@@ -4,10 +4,9 @@ import java.util.Scanner;
 
 
 public class Board {
-    Piece red;
     ArrayList<Piece> pieces;
     int dim_x,dim_y,dim_z;
-
+    boolean[][][] occupied;
     public Board(int dim_x, int dim_y, int dim_z) {
         this.dim_x = dim_x;
         this.dim_y = dim_y;
@@ -30,24 +29,58 @@ public class Board {
             return null;
         }
     }
+    public Board clone(){
+        Board s = new Board(dim_x,dim_y,dim_z);
+        s.pieces = (ArrayList<Piece>) pieces.clone();
+        return s;
+    }
     boolean checkValidConfiguration(){
-        boolean[][][] v = new boolean[dim_x][dim_y][dim_z];
+        occupied = new boolean[dim_x][dim_y][dim_z];
         for(Piece p:pieces)
-            for(int x=p.x;x<=p.x+p.s_x;x++)
-                for(int y=p.y;y<=p.y+p.s_y;y++)
-                    for(int z=p.z;z<=p.z+p.s_z;z++){
-                        if(x<0||y<0||z<0||x>=dim_x||y>=dim_y||z>=dim_z||v[x][y][z])
+            for(int x=p.x;x<p.x+p.s_x;x++)
+                for(int y=p.y;y<p.y+p.s_y;y++)
+                    for(int z=p.z;z<p.z+p.s_z;z++){
+                        if(x<0||y<0||z<0||x>=dim_x||y>=dim_y||z>=dim_z||occupied[x][y][z])
                             return false;
                         else
-                            v[x][y][z]=true;
+                            occupied[x][y][z]=true;
                     }
+
         return true;
     }
-
     void printPieces(){
         for(Piece p:pieces){
             System.out.println(p);
         }
+    }
+    public String toString(){
+        String s = "";
+        for(Piece p:pieces)
+            s+=p.toString();
+        return s;
+    }
+
+    public boolean isSolution(){
+        int x = pieces.get(0).x+pieces.get(0).s_x;
+        for(int i=x;i<dim_x;i++){
+            if(occupied[x][dim_y/2][dim_z/2])
+                return false;
+        }
+        return true;
+    }
+    public String dimString(){
+        String s = "";
+        for(int i=1;i<=pieces.size();i++){
+            s+=dim_x+" "+dim_y+" "+dim_z+" ";
+            s+=dim_x+" "+dim_y+" "+dim_z+" ";
+        }
+        return s;
+    }
+    public String toPrintableString(){
+        String s = "";
+        for(Piece p:pieces)
+            s+=p.x+" "+p.y+" "+p.z+" "+p.s_x+" "+p.s_y+" "+p.s_z+" ";
+        return s;
     }
 
 }
