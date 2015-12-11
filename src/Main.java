@@ -10,6 +10,7 @@ public class Main {
         LinkedList<Board> queue2 = new LinkedList<Board>();
         // load 1st board from file (N is first value, then each line is list of pieces x y z s_x s_y s_z)
         Board b = Board.load(s+".txt");
+        b.printPieces();
         if(b.checkValidConfiguration())
             System.out.println("valid configuration! calculating...");
         else{
@@ -23,9 +24,11 @@ public class Main {
             //loop through, try moving
             while(!queue.isEmpty()) {
                 for (Board board : queue) {
+                    set.add(board.toString());
                     if (board.isSolution()) {
                         System.out.println("valid solution!");
                         writer.println(board.toPrintableString());
+                        writer.close();
                         System.exit(0);
                     } else {
                         System.out.println("checking new config...");
@@ -34,18 +37,34 @@ public class Main {
                         for(int i=0;i<board.pieces.size();i++){
                             Board b1 = board.clone();
                             Board b2 = board.clone();
-                            switch(b1.pieces.get(i).longestDim) {
-                                case 0:b1.pieces.get(i).x -= 1;
-                                    b2.pieces.get(i).x += 1;break;
-                                case 1:b1.pieces.get(i).y -= 1;
-                                    b2.pieces.get(i).y += 1;break;
-                                case 2:b1.pieces.get(i).z -= 1;
-                                    b2.pieces.get(i).z += 1;break;
+                            Piece p = b1.pieces.get(i);
+                            if(i==3)
+                                System.out.println(p.toExtraString());
+                            switch(p.longestDim) {
+                                case 0:
+                                    b1.pieces.set(i,new Piece(p.x-1,p.y,p.z,p.s_x,p.s_y,p.s_z));
+                                    b2.pieces.set(i,new Piece(p.x+1,p.y,p.z,p.s_x,p.s_y,p.s_z));
+                                    break;
+                                case 1:
+                                    b1.pieces.set(i,new Piece(p.x,p.y-1,p.z,p.s_x,p.s_y,p.s_z));
+                                    b2.pieces.set(i,new Piece(p.x,p.y+1,p.z,p.s_x,p.s_y,p.s_z));
+                                    break;
+                                case 2:
+                                    b1.pieces.set(i,new Piece(p.x,p.y,p.z-1,p.s_x,p.s_y,p.s_z));
+                                    b2.pieces.set(i,new Piece(p.x,p.y,p.z+1,p.s_x,p.s_y,p.s_z));
+                                    break;
+                                default:System.out.println("error");
                             }
-                            if(b1.checkValidConfiguration())
+                            if(!set.contains(b1.toString())&&b1.checkValidConfiguration()) {
                                 queue2.add(b1);
-                            if(b2.checkValidConfiguration())
+                                b1.printPieces();
+                                System.out.println();
+                            }
+                            if(!set.contains(b2.toString())&&b2.checkValidConfiguration()) {
                                 queue2.add(b2);
+                                b2.printPieces();
+                                System.out.println();
+                            }
                         }
                     }
                 }

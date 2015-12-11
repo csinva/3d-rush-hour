@@ -35,6 +35,9 @@ public class Board {
         return s;
     }
     boolean checkValidConfiguration(){
+        Piece pc = pieces.get(0);
+        if(pc.y!=dim_y/2||pc.z!=dim_z/2)
+            return false;
         occupied = new boolean[dim_x][dim_y][dim_z];
         for(Piece p:pieces)
             for(int x=p.x;x<p.x+p.s_x;x++)
@@ -63,7 +66,7 @@ public class Board {
     public boolean isSolution(){
         int x = pieces.get(0).x+pieces.get(0).s_x;
         for(int i=x;i<dim_x;i++){
-            if(occupied[x][dim_y/2][dim_z/2])
+            if(occupied[i][dim_y/2][dim_z/2])
                 return false;
         }
         return true;
@@ -79,7 +82,7 @@ public class Board {
     public String toPrintableString(){
         String s = "";
         for(Piece p:pieces)
-            s+=p.x+" "+p.y+" "+p.z+" "+p.s_x+" "+p.s_y+" "+p.s_z+" ";
+            s+=p.x+" "+p.y+" "+p.z+" "+p.s_x+" "+p.s_y+" "+p.s_z+"  ";
         return s;
     }
 

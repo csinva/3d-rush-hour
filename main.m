@@ -1,12 +1,12 @@
 % load parameters
 % needs to somehow convey N, first thing should be escape piece
-params = load('test_1.out');
+params = load('test_4.out');
 p_size = size(params);
 
 %% parameters
-N = 9; % this should reflect the number of pieces
+N = params(1); % this should reflect the number of pieces
 N_2 = floor(N/2);
-delay = .5;
+delay = 1e-2;
 
 %% graph
 axis([0 N 0 N 0 N]);
@@ -15,8 +15,10 @@ ylabel('y');
 zlabel('z');
 whitebg(gcf);
 grid;
+set(gcf, 'units','normalized','outerposition',[0 0 1 1]);
 
-cmap = colormap(jet(N-1));
+
+cmap = colormap(jet(p_size(2)/6+1));
 for iter=2:p_size(1)
     cla;
     % generate escape hole at 0,N/2,N/2

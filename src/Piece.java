@@ -10,15 +10,18 @@ public class Piece {
         this.s_x = s_x;
         this.s_y = s_y;
         this.s_z = s_z;
-        if(x>y&&x>z)
+        if(s_x>s_y&&s_x>s_z)
             longestDim=0;
-        else if(y>x&&y>z)
+        else if(s_y>s_x&&s_y>s_z)
             longestDim=1;
-        else if(z>z&&z>y)
+        else
             longestDim=2;
     }
 
     public String toString(){
         return x+","+y+","+z;
+    }
+    public String toExtraString(){
+        return x+","+y+","+z + "("+s_x+","+s_y+","+s_z+")"+" longestDim: "+longestDim;
     }
 }
