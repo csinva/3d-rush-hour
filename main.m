@@ -1,12 +1,12 @@
 % load parameters
 % needs to somehow convey N, first thing should be escape piece
-params = load('test_4.out');
+params = load('test_4_wrong.txt');
 p_size = size(params);
 
 %% parameters
 N = params(1); % this should reflect the number of pieces
 N_2 = floor(N/2);
-delay = 1e-2;
+delay = 1;
 
 %% graph
 axis([0 N 0 N 0 N]);
@@ -15,7 +15,7 @@ ylabel('y');
 zlabel('z');
 whitebg(gcf);
 grid;
-set(gcf, 'units','normalized','outerposition',[0 0 1 1]);
+% set(gcf, 'units','normalized','outerposition',[0 0 1 1]);
 
 
 cmap = colormap(jet(p_size(2)/6+1));

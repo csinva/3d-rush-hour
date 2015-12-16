@@ -7,11 +7,13 @@ public class Board {
     ArrayList<Piece> pieces;
     int dim_x,dim_y,dim_z;
     boolean[][][] occupied;
+    String prevs;
     public Board(int dim_x, int dim_y, int dim_z) {
         this.dim_x = dim_x;
         this.dim_y = dim_y;
         this.dim_z = dim_z;
         pieces = new ArrayList<>();
+        prevs = "";
     }
     static Board load(String s){
         try{
@@ -32,6 +34,7 @@ public class Board {
     public Board clone(){
         Board s = new Board(dim_x,dim_y,dim_z);
         s.pieces = (ArrayList<Piece>) pieces.clone();
+        s.prevs = this.prevs;
         return s;
     }
     boolean checkValidConfiguration(){
