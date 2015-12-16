@@ -4,12 +4,13 @@ import java.util.LinkedList;
 
 public class Main {
     public static void main(String[] args){
+        double start = System.currentTimeMillis();
         String s = "test_7";
         HashSet<String> set = new HashSet<String>();
         LinkedList<Board> queue = new LinkedList<Board>();
         LinkedList<Board> queue2 = new LinkedList<Board>();
         // load 1st board from file (N is first value, then each line is list of pieces x y z s_x s_y s_z)
-        Board b = Board.load(s+".txt");
+        Board b = Board.load("puzzles/"+s+".txt");
         b.printPieces();
         b.prevs=b.toPrintableString();
         if(b.checkValidConfiguration())
@@ -18,10 +19,10 @@ public class Main {
             System.out.println("invalid configuration!");
             System.exit(1);
         }
-        int numMoves=0;
+        int numMoves=-1;
         queue.add(b);
         try {
-            PrintWriter writer = new PrintWriter(s+".out", "UTF-8");
+            PrintWriter writer = new PrintWriter("puzzles/"+s+".out", "UTF-8");
             writer.println(b.dimString());
             //loop through, try moving
             while(!queue.isEmpty()) {
@@ -31,9 +32,10 @@ public class Main {
                     set.add(board.toString());
                     if (board.isSolution()) {
                         System.out.println("valid solution! "+numMoves+" moves taken.");
+                        System.out.println("time: "+(System.currentTimeMillis()-start)+" ms");
                         System.out.println(board.prevs);
                         writer.println(board.toPrintableString());
-                        PrintWriter solWriter = new PrintWriter(s+".sol", "UTF-8");
+                        PrintWriter solWriter = new PrintWriter("puzzles/"+s+".sol", "UTF-8");
                         solWriter.println(b.dimString());
                         solWriter.println(board.prevs);
                         solWriter.close();
