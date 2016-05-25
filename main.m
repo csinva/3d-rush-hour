@@ -1,7 +1,7 @@
 % load parameters
 % needs to somehow convey N, first thing should be escape piece
 s = 'puzzles/';
-params = load([s 'test_3.sol']);
+params = load([s 'test_5.sol']);
 p_size = size(params);
 
 %% parameters
